@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Receiver</string>
+    <string name="start">Start</string>
+    <string name="port">Port:</string>
+    <string name="hide1">Hide series 1</string>
+    <string name="show1">Show series 1</string>
+    <string name="hide2">Hide series 2</string>
+    <string name="show2">Show series 2</string>
+    <string name="hide3">Hide series 3</string>
+    <string name="show3">Show series 3</string>
+    <string name="hide4">Hide series 4</string>
+    <string name="show4">Show series 4</string>
+    <string name="showAverage">Average</string>
+    <string name="hideAverage">Average</string>
+    <string name="returnButton">Return</string>
+    <string name="archive">Archive</string>
+    <string name="title_activity_archive">Archive</string>
+</resources>
