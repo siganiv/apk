@@ -260,6 +260,51 @@ public class DataValues {
         return array;
     }
 
+    public DataPoint[] getRMS(int series) {
+        List<DataPoint> tempDataPoints = new ArrayList<>();
+
+        int count = 0;
+
+        if (series == 0) {
+            for (int i = values.size() - 1; i >= 0; i--) {
+                if ((values.size() > 4 && (values.get(i).getState() == DataPointState.VALID) && count < MAX_SERIES)) {
+                    tempDataPoints.add(new DataPoint(values.get(i).getTime(), countRMS(values.get(i - 1).getValue1(), values.get(i - 2).getValue1(), values.get(i - 3).getValue1(), values.get(i - 4).getValue1())));
+                    count++;
+                }
+            }
+        } else if (series == 1) {
+            for (int i = values.size() - 1; i >= 0; i--) {
+                if ((values.size() > 4 && (values.get(i).getState() == DataPointState.VALID) && count < MAX_SERIES)) {
+                    tempDataPoints.add(new DataPoint(values.get(i).getTime(), countRMS(values.get(i - 1).getValue2(), values.get(i - 2).getValue2(), values.get(i - 3).getValue2(), values.get(i - 4).getValue2())));
+                    count++;
+                }
+            }
+        } else if (series == 2) {
+            for (int i = values.size() - 1; i >= 0; i--) {
+                if ((values.size() > 4 && (values.get(i).getState() == DataPointState.VALID) && count < MAX_SERIES)) {
+                    tempDataPoints.add(new DataPoint(values.get(i).getTime(), countRMS(values.get(i - 1).getValue3(), values.get(i - 2).getValue3(), values.get(i - 3).getValue3(), values.get(i - 4).getValue3())));
+                    count++;
+                }
+            }
+        } else if (series == 3) {
+            for (int i = values.size() - 1; i >= 0; i--) {
+                if ((values.size() > 4 && (values.get(i).getState() == DataPointState.VALID) && count < MAX_SERIES)) {
+                    tempDataPoints.add(new DataPoint(values.get(i).getTime(), countRMS(values.get(i - 1).getValue4(), values.get(i - 2).getValue4(), values.get(i - 3).getValue4(), values.get(i - 4).getValue4())));
+                    count++;
+                }
+            }
+        }
+
+        List<DataPoint> tempDataPoints2 = new ArrayList<>();
+
+        for (int i = tempDataPoints.size() - 1; i >= 0; i--) {
+            tempDataPoints2.add(tempDataPoints.get(i));
+        }
+
+        DataPoint[] array = tempDataPoints2.toArray(new DataPoint[tempDataPoints.size()]);
+        return array;
+    }
+
     public double getPreciseAverage(int series) {
         double result = 0;
 
@@ -318,7 +363,7 @@ public class DataValues {
         return result;
     }
 
-    public double getRMS(int series) {
+    public double getPreciseRMS(int series) {
         double result = 0;
 
         int count = 0;
@@ -425,6 +470,38 @@ public class DataValues {
         double numerator = first + second + third + fourth;
 
         result = numerator / denominator;
+
+        return result;
+    }
+
+    private double countRMS(double first, double second, double third, double fourth) {
+        double result = 0;
+
+        int denominator = 4;
+
+        if (first == 0) {
+            denominator--;
+        }
+
+        if (second == 0) {
+            denominator--;
+        }
+
+        if (third == 0) {
+            denominator--;
+        }
+
+        if (fourth == 0) {
+            denominator--;
+        }
+
+        if (denominator == 0) {
+            denominator = 1;
+        }
+
+        double numerator = Math.pow(first, 2) + Math.pow(second, 2) + Math.pow(third, 2) + Math.pow(fourth, 2);
+
+        result = Math.sqrt(numerator / denominator);
 
         return result;
     }

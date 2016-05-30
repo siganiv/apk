@@ -2,7 +2,6 @@ package com.example.siganiv.receiver;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
             series4 = new LineGraphSeries<DataPoint>(result.getSeries4());
 
             graph.removeAllSeries();
-
-            averageText.setText(LAST_DATA_MESSAGE + result.getLastData1());
 
             if (series2Controller == 0) {
                 setBareSeries();
@@ -119,17 +115,21 @@ public class MainActivity extends AppCompatActivity {
         message.setText(RMS_MESSAGE);
 
         if (seriesController == 0) {
-            averageText.setText(" " + result.getRMS(seriesController));
-            graph.addSeries(series1);
+            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(0));
+            averageText.setText(" " + result.getPreciseRMS(seriesController));
+            graph.addSeries(seriesAverage);
         } else if (seriesController == 1) {
-            averageText.setText(" " + result.getRMS(seriesController));
-            graph.addSeries(series2);
+            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(1));
+            averageText.setText(" " + result.getPreciseRMS(seriesController));
+            graph.addSeries(seriesAverage);
         } else if (seriesController == 2) {
-            averageText.setText(" " + result.getRMS(seriesController));
-            graph.addSeries(series3);
+            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(2));
+            averageText.setText(" " + result.getPreciseRMS(seriesController));
+            graph.addSeries(seriesAverage);
         } else if (seriesController == 3) {
-            averageText.setText(" " + result.getRMS(seriesController));
-            graph.addSeries(series4);
+            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(3));
+            averageText.setText(" " + result.getPreciseRMS(seriesController));
+            graph.addSeries(seriesAverage);
         }
     }
 
@@ -155,8 +155,13 @@ public class MainActivity extends AppCompatActivity {
         message.setText(LAST_DATA_MESSAGE);
         averageText.setEnabled(false);
 
+        graph.addSeries(series1);
+
         setSpinner();
         setSpinner2();
+
+        receive = new Receive(receiveInterface);
+        receive.execute(Integer.parseInt(port.getText().toString()));
     }
 
     private void setSpinner() {
@@ -186,9 +191,10 @@ public class MainActivity extends AppCompatActivity {
                             averageText.setText(" " + result.getPreciseAverage(seriesController));
                             graph.addSeries(seriesAverage);
                         } else if (series2Controller == 2) {
+                            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(0));
                             message.setText(RMS_MESSAGE);
-                            averageText.setText(" " + result.getRMS(seriesController));
-                            graph.addSeries(series1);
+                            averageText.setText(" " + result.getPreciseRMS(seriesController));
+                            graph.addSeries(seriesAverage);
                         }
 
                         break;
@@ -205,9 +211,10 @@ public class MainActivity extends AppCompatActivity {
                             averageText.setText(" " + result.getPreciseAverage(seriesController));
                             graph.addSeries(seriesAverage);
                         } else if (series2Controller == 2) {
+                            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(1));
                             message.setText(RMS_MESSAGE);
-                            averageText.setText(" " + result.getRMS(seriesController));
-                            graph.addSeries(series2);
+                            averageText.setText(" " + result.getPreciseRMS(seriesController));
+                            graph.addSeries(seriesAverage);
                         }
 
 
@@ -225,9 +232,10 @@ public class MainActivity extends AppCompatActivity {
                             averageText.setText(" " + result.getPreciseAverage(seriesController));
                             graph.addSeries(seriesAverage);
                         } else if (series2Controller == 2) {
+                            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(2));
                             message.setText(RMS_MESSAGE);
-                            averageText.setText(" " + result.getRMS(seriesController));
-                            graph.addSeries(series3);
+                            averageText.setText(" " + result.getPreciseRMS(seriesController));
+                            graph.addSeries(seriesAverage);
                         }
 
                         break;
@@ -244,9 +252,10 @@ public class MainActivity extends AppCompatActivity {
                             averageText.setText(" " + result.getPreciseAverage(seriesController));
                             graph.addSeries(seriesAverage);
                         } else if (series2Controller == 2) {
+                            seriesAverage = new LineGraphSeries<DataPoint>(result.getRMS(3));
                             message.setText(RMS_MESSAGE);
-                            averageText.setText(" " + result.getRMS(seriesController));
-                            graph.addSeries(series4);
+                            averageText.setText(" " + result.getPreciseRMS(seriesController));
+                            graph.addSeries(seriesAverage);
                         }
 
                         break;
